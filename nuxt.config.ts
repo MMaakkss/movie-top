@@ -5,10 +5,17 @@ export default defineNuxtConfig({
 		css: {
 			preprocessorOptions: {
 				scss: {
-					additionalData:
-						'@use "@/assets/style/variables.scss" as *;',
+					additionalData: '@use "@/assets/style/variables.scss" as *;',
 				},
 			},
 		},
 	},
+	modules: [
+		[
+			"@pinia/nuxt",
+			{
+				autoImports: ["defineStore", ["defineStore", "definePiniaStore"]],
+			},
+		],
+	],
 });

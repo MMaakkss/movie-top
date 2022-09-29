@@ -1,50 +1,106 @@
 <template>
 	<div class="card">
-		<img
-			class="card__img"
-			:src="`https://image.tmdb.org/t/p/original/${data.poster_path}`"
-			height="440"
-			width="290"
-			:alt="data.title"
-		/>
-		<p class="card__title">{{ data.title }}</p>
-		<p class="card__rating">Rating: {{ data.vote_average }}</p>
+		<div class="card__overview overview">
+			<img
+				class="card__img"
+				:src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`"
+				height="440"
+				width="290"
+				:alt="movie.title"
+			/>
+			<p class="card__overview-description">{{ movie.overview }}</p>
+		</div>
+		<p class="card__title">{{ movie.title }}</p>
+		<p class="card__date">Released: {{ date }}</p>
+		<p class="card__rating">{{ movie.vote_average }}</p>
+		<div class="card__link">
+			<NuxtLink class="link" :to="`/${movie.id}`">More Info</NuxtLink>
+		</div>
 	</div>
 </template>
-<script>
-export default {
-	props: {
-		data: {
-			type: Object,
-			default: () => {},
-		},
-	},
-};
+
+<script setup>
+const props = defineProps({ movie: Object });
+
+const date = computed(() =>
+	new Date(props.movie.release_date).toLocaleString("en-us", {
+		month: "long",
+		day: "numeric",
+		year: "numeric",
+	})
+);
 </script>
+
 <style lang="scss" scoped>
 .card {
 	width: fit-content;
 	overflow: hidden;
 	max-width: 290px;
-	height: 100%;
 	padding-bottom: 20px;
-	border-radius: 14px;
-	background-color: $dark;
-	box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.12),
-		0px 12px 24px rgba(0, 0, 0, 0.12), 0px 1px 32px rgba(0, 0, 0, 0.12);
-	color: $white;
-	text-align: center;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+
+	&__overview {
+		position: relative;
+		overflow: hidden;
+
+		&:hover {
+			.card__overview-description {
+				bottom: 0;
+			}
+		}
+
+		&-description {
+			max-height: 60%;
+			overflow: auto;
+			padding: 10px;
+			position: absolute;
+			bottom: -100%;
+			background-color: #c92201ec;
+			transition: 0.5s;
+			line-height: 1.5;
+		}
+	}
 
 	&__title {
 		font-size: 24px;
-		margin-top: 20px;
+		margin-top: 15px;
 		font-weight: 400;
+	}
+
+	&__date {
+		color: $gray;
+		font-size: 18px;
+	}
+
+	&__link {
+		margin-top: 15px;
+		flex: 1;
+		display: flex;
+		align-items: flex-end;
+		.link {
+			padding: 8px 30px;
+			border: 1px solid $orange_red;
+			transition: 0.2s;
+
+			&:hover {
+				background-color: $orange_red;
+			}
+		}
 	}
 
 	&__rating {
 		font-size: 20px;
 		font-weight: 300;
-		margin-top: 10px;
+		text-align: center;
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 50px;
+		padding: 10px 0;
+		background-color: $orange_red;
+		border-radius: 0 0 0 20px;
 	}
 }
 </style>

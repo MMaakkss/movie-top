@@ -1,5 +1,6 @@
 <template>
-	<div>
+	<Loading v-if="!movieImbd" />
+	<div v-else>
 		<p>Title: {{ movie.title }}</p>
 		<p>Imbd Rating: {{ movieImbd.imdbRating }}</p>
 	</div>
@@ -15,18 +16,21 @@ const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${config.apiK
 
 const { data: movie } = await useFetch(url, { key: movieId });
 
-let movieImbd = ref({});
+let movieImbd = ref();
 
 watch(
 	movie,
-	() => {
-		useFetch(
-			() =>
-				`https://www.omdbapi.com/?i=${movie.value.imdb_id}&apikey=${config.ombdToken}`,
-			{ key: movie.value.imdb_id }
-		).then((res) => {
-			movieImbd.value = res.data.value;
-		});
+	(newMovie) => {
+		if (newMovie.imdb_id) {
+			setTimeout(() => {
+				useFetch(
+					`https://www.omdbapi.com/?i=${newMovie.imdb_id}&apikey=${config.ombdToken}`,
+					{ key: newMovie.imdb_id }
+				).then((response) => {
+					movieImbd.value = response.data.value;
+				});
+			}, 1000);
+		}
 	},
 	{
 		deep: true,
