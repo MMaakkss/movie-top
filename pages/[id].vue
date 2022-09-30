@@ -27,9 +27,23 @@ watch(
 					`https://www.omdbapi.com/?i=${newMovie.imdb_id}&apikey=${config.ombdToken}`,
 					{ key: newMovie.imdb_id }
 				).then((response) => {
-					movieImbd.value = response.data.value;
+					if (response.data.value.Response.toLowerCase() === "false") {
+						movieImbd.value = {
+							imdbRating: "N/A",
+						};
+					} else {
+						movieImbd.value = response.data.value;
+					}
 				});
 			}, 1000);
+		} else {
+			console.log("dsa");
+			setTimeout(() => {
+				movieImbd.value = {
+					imdbRating: "N/A",
+				};
+				console.log(movieImbd);
+			});
 		}
 	},
 	{

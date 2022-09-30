@@ -1,6 +1,13 @@
 <template>
 	<div>
 		<Loading v-if="loading" />
+		<div class="filter">
+			<select name="select" @input="changeYear">
+				<option value="2022">2022</option>
+				<option value="2021">2021</option>
+				<option value="2020">2020</option>
+			</select>
+		</div>
 		<div class="movie-grid">
 			<div class="list">
 				<CardItem
@@ -31,22 +38,20 @@
 </template>
 
 <script setup>
-import { usePageStore } from "@/stores/page";
+import { useFilterStore } from "@/stores/filter";
 
 const config = useAppConfig();
 
-const store = usePageStore();
+const store = useFilterStore();
 
-let year = 2022;
+let loading = ref(false);
 
 let url = computed(
 	() =>
-		`https://api.themoviedb.org/3/discover/movie?api_key=${config.apiKey}&sort_by=popularity.desc&page=${store.getPage}&year=${year}`
+		`https://api.themoviedb.org/3/discover/movie?api_key=${config.apiKey}&sort_by=popularity.desc&page=${store.getPage}&primary_release_year=${store.getYear}`
 );
 
 const { data: list } = await useFetch(() => url.value);
-
-let loading = ref(false);
 
 const goUp = () => {
 	document.body.scrollTop = 0;
@@ -63,6 +68,8 @@ const goUp = () => {
 	}, 2000);
 };
 
+//Filters
+
 const next = () => {
 	store.increment();
 	goUp();
@@ -78,6 +85,12 @@ const changePage = (pageIndex) => {
 	goUp();
 };
 
+const changeYear = (e) => {
+	store.setYear(e.target.value);
+	goUp();
+};
+
+console.log(url.value);
 console.log(list);
 </script>
 

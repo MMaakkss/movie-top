@@ -62,6 +62,9 @@ const date = computed(() =>
 			line-height: 1.5;
 		}
 	}
+	&__img {
+		display: block;
+	}
 
 	&__title {
 		font-size: 24px;
