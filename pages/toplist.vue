@@ -1,14 +1,14 @@
 <template>
 	<div>
 		<Loading v-if="loading" />
-		<div class="filter">
-			<select name="select" @input="changeYear">
-				<option value="2022">2022</option>
-				<option value="2021">2021</option>
-				<option value="2020">2020</option>
-			</select>
-		</div>
 		<div class="movie-grid">
+			<div class="filter">
+				<select name="select" @input="changeYear">
+					<option value="2022">2022</option>
+					<option value="2021">2021</option>
+					<option value="2020">2020</option>
+				</select>
+			</div>
 			<div class="list">
 				<CardItem
 					class="list__item"
