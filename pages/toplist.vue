@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<Loading v-if="loading" />
-		<div class="movie-grid">
+		<div v-else class="movie-grid">
 			<div class="filter">
 				<select name="select" @input="changeYear">
 					<option value="2022">2022</option>
@@ -56,14 +56,9 @@ const { data: list } = await useFetch(() => url.value);
 const goUp = () => {
 	document.body.scrollTop = 0;
 	document.documentElement.scrollTop = 0;
-
-	const list = document.querySelector(".movie-grid");
-
-	list.style.display = "none";
 	loading.value = true;
 
 	setTimeout(() => {
-		list.style.display = "block";
 		loading.value = false;
 	}, 2000);
 };
