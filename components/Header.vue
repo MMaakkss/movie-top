@@ -18,7 +18,7 @@
 <style lang="scss" scoped>
 .header {
 	height: 60px;
-	background-color: $dark;
+	background-color: $dark_gray;
 	box-shadow: 0px -17px 45px 15px rgba(0, 0, 0, 0.75);
 
 	&__container {
@@ -32,6 +32,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			padding: 0;
 			gap: 20px;
 			height: 60px;
 		}

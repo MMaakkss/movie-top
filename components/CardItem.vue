@@ -14,12 +14,13 @@
 		<p class="card__date">Released: {{ date }}</p>
 		<p class="card__rating">{{ movie.vote_average }}</p>
 		<div class="card__link">
-			<NuxtLink class="link" :to="`/${movie.id}`">More Info</NuxtLink>
+			<Button :link="`/${movie.id}`">More Info</Button>
 		</div>
 	</div>
 </template>
 
 <script setup>
+import Button from "./UI/Button.vue";
 const props = defineProps({ movie: Object });
 
 const date = computed(() =>
@@ -60,6 +61,10 @@ const date = computed(() =>
 			background-color: #c92201ec;
 			transition: 0.5s;
 			line-height: 1.5;
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
 		}
 	}
 	&__img {
@@ -82,15 +87,6 @@ const date = computed(() =>
 		flex: 1;
 		display: flex;
 		align-items: flex-end;
-		.link {
-			padding: 8px 30px;
-			border: 1px solid $orange_red;
-			transition: 0.2s;
-
-			&:hover {
-				background-color: $orange_red;
-			}
-		}
 	}
 
 	&__rating {

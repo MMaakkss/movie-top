@@ -1,12 +1,52 @@
 <template>
 	<Loading v-if="!movieImbd" />
 	<div v-else>
-		<p>Title: {{ movie.title }}</p>
-		<p>Imbd Rating: {{ movieImbd.imdbRating }}</p>
+		<Button link="/toplist">Go back</Button>
+		<div class="movie">
+			<div class="movie__poster">
+				<img
+					class="card__img"
+					:src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`"
+					:alt="movie.title"
+				/>
+			</div>
+			<div class="movie__info info">
+				<h2 class="info__title">
+					Title: <span>{{ movie.title }}</span>
+				</h2>
+				<p>
+					Imbd Rating: <span>{{ movieImbd.imdbRating }}</span>
+				</p>
+				<p>
+					Release Date:
+					<span>{{
+						new Date(movie.release_date).toLocaleString("en-us", {
+							month: "long",
+							day: "numeric",
+							year: "numeric",
+						})
+					}}</span>
+				</p>
+				<p class="info__genre">
+					Genre:
+					<span v-for="item in movie.genres" :key="item.id">{{
+						item.name
+					}}</span>
+				</p>
+				<p>
+					Original Language:
+					<span>{{ movie.original_language.toUpperCase() }}</span>
+				</p>
+				<p>
+					Overview: <span>{{ movie.overview }}</span>
+				</p>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script setup>
+import Button from "~~/components/UI/Button.vue";
 const config = useAppConfig();
 
 const route = useRoute();
@@ -37,7 +77,6 @@ watch(
 				});
 			}, 1000);
 		} else {
-			console.log("dsa");
 			setTimeout(() => {
 				movieImbd.value = {
 					imdbRating: "N/A",
@@ -54,3 +93,53 @@ watch(
 
 console.log(movie.value);
 </script>
+
+<style lang="scss" scoped>
+.movie {
+	display: flex;
+	gap: 20px;
+
+	&__poster {
+		width: 35%;
+
+		img {
+			max-width: 100%;
+		}
+	}
+
+	.info {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		font-weight: 400;
+		width: calc(65% - 20px);
+
+		span {
+			font-weight: 300;
+			color: $light;
+		}
+
+		&__title {
+			font-size: 28px;
+		}
+
+		&__genre {
+			span {
+				margin-right: 4px;
+
+				&::after {
+					content: ",";
+				}
+
+				&:last-child {
+					margin-right: 0;
+
+					&::after {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+}
+</style>
