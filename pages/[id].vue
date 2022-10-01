@@ -98,6 +98,7 @@ console.log(movie.value);
 .movie {
 	display: flex;
 	gap: 20px;
+	margin-top: 20px;
 
 	&__poster {
 		width: 35%;

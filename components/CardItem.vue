@@ -61,6 +61,7 @@ const date = computed(() =>
 			background-color: #c92201ec;
 			transition: 0.5s;
 			line-height: 1.5;
+			letter-spacing: 1.2px;
 
 			&::-webkit-scrollbar {
 				display: none;

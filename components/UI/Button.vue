@@ -12,10 +12,10 @@ const props = defineProps({
 .link {
 	display: block;
 	width: fit-content;
-	margin-bottom: 20px;
 	padding: 8px 30px;
 	border: 1px solid $orange_red;
 	transition: 0.2s;
+	cursor: pointer;
 
 	&:hover {
 		background-color: $orange_red;

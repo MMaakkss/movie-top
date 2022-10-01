@@ -3,12 +3,42 @@
 		<Loading v-if="loading" />
 		<div v-else class="movie-grid">
 			<div class="filter">
-				<select name="select" @input="changeYear">
-					<option value="2022">2022</option>
-					<option value="2021">2021</option>
-					<option value="2020">2020</option>
-				</select>
+				<form class="filter__form" @submit.prevent="getFormData">
+					<div class="input-group">
+						<div>
+							<div class="input-group__input">
+								<span>Date:</span>
+								<input type="text" name="year" :value="store.getYear" />
+							</div>
+							<div class="filter__form__error" v-if="inputErorrs.year">
+								Can only contain numbers!
+							</div>
+						</div>
+
+						<div class="input-group__input">
+							<span>Genre:</span>
+
+							<select name="genre">
+								<option value="all" :selected="store.getGenre === 'all'">
+									All
+								</option>
+
+								<option
+									v-for="item in genreList.genres"
+									:key="item.id"
+									:value="item.id"
+									:selected="store.getGenre === item.id.toString()"
+								>
+									{{ item.name }}
+								</option>
+							</select>
+						</div>
+					</div>
+
+					<button class="filter__form__submit" type="submit">Search</button>
+				</form>
 			</div>
+
 			<div class="list">
 				<CardItem
 					class="list__item"
@@ -18,6 +48,7 @@
 					:movie="item"
 				/>
 			</div>
+
 			<div class="pagination">
 				<div class="pagination__button" @click="prev">prev</div>
 				<div class="pagination__pages">
@@ -39,19 +70,29 @@
 
 <script setup>
 import { useFilterStore } from "@/stores/filter";
+import Button from "~~/components/UI/Button.vue";
 
 const config = useAppConfig();
 
 const store = useFilterStore();
 
+const inputErorrs = ref({
+	year: false,
+});
+
 let loading = ref(false);
 
 let url = computed(
 	() =>
-		`https://api.themoviedb.org/3/discover/movie?api_key=${config.apiKey}&sort_by=popularity.desc&page=${store.getPage}&primary_release_year=${store.getYear}`
+		`https://api.themoviedb.org/3/discover/movie?api_key=${config.apiKey}&sort_by=popularity.desc&page=${store.getPage}&primary_release_year=${store.getYear}&with_genres=${store.getGenre}`
 );
 
+//--------- Requests ---------//
 const { data: list } = await useFetch(() => url.value);
+const { data: genreList } = await useFetch(
+	`https://api.themoviedb.org/3/genre/movie/list?api_key=${config.apiKey}`
+);
+//---------------------------//
 
 const goUp = () => {
 	document.body.scrollTop = 0;
@@ -83,6 +124,25 @@ const changePage = (pageIndex) => {
 const changeYear = (e) => {
 	store.setYear(e.target.value);
 	goUp();
+};
+
+const getFormData = (data) => {
+	if (/^[0-9]+$/.test(data.target.year.value)) {
+		if (data.target.year.value.toString() !== store.getYear.toString()) {
+			store.setYear(data.target.year.value);
+			goUp();
+		}
+
+		inputErorrs.value.year = false;
+	} else {
+		inputErorrs.value.year = true;
+	}
+
+	if (data.target.genre.value.toString() !== store.getGenre.toString()) {
+		store.setGenre(data.target.genre.value);
+		console.log(store.getGenre);
+		goUp();
+	}
 };
 
 console.log(url.value);
@@ -119,6 +179,57 @@ console.log(list);
 
 			&.current_page {
 				color: $gray;
+			}
+		}
+	}
+}
+
+.filter {
+	&__form {
+		input,
+		select {
+			border: none;
+			padding: 5px 10px;
+			border-radius: 2px;
+			background-color: $white;
+			color: $orange_red;
+
+			&:focus {
+				outline: none;
+			}
+		}
+
+		&__error {
+			margin-top: 5px;
+			font-size: 12px;
+			color: $orange;
+		}
+
+		&__submit {
+			display: block;
+			width: fit-content;
+			margin: 20px auto;
+			padding: 8px 30px;
+			background-color: unset;
+			border: 1px solid $orange_red;
+			color: $white;
+			cursor: pointer;
+			transition: 0.2s;
+
+			&:hover {
+				background-color: $orange_red;
+			}
+		}
+
+		.input-group {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+
+			&__input {
+				display: flex;
+				align-items: center;
+				gap: 15px;
 			}
 		}
 	}
