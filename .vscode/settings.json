@@ -1,0 +1,5 @@
+{
+	"editor.suggest.showReferences": false,
+	"editor.gotoLocation.multipleReferences": "peek",
+	"html.hover.references": false
+}

@@ -1,16 +1,4 @@
-// [data-theme="dark"] {
-// 	--bg-color1: #121416;
-// 	--font-color: #f4f4f4;
-// }
-// [data-theme="light"] {
-// 	--bg-color1: #f4f4f4;
-// 	--font-color: #121416;
-// }
-// body {
-// 	background-color: var(--bg-color1);
-// 	color: var(--font-color);
-// }
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 * {
 	margin: 0;
@@ -23,13 +11,30 @@ li {
 	list-style: none;
 }
 body {
-	font-family: "Inter", sans-serif;
+	font-family: 'Poppins', sans-serif;
 	letter-spacing: 1.5px;
+	font-size: 16px;
 	background-color: $dark;
 	color: $white;
+	background-image: url("@/assets/img/background.png");
+	background-size: cover;
 }
 div {
 	box-sizing: border-box;
+}
+input, select {
+	background-color: $dark;
+	color: $dark_gray;
+	border: 1px solid #323B54;
+	border-radius: 12px;
+
+	&::placeholder {
+		color: $dark_gray;
+	}
+
+	&:focus {
+		outline: none;
+	}
 }
 body,
 html,
@@ -37,7 +42,7 @@ html,
 	height: 100%;
 }
 .container {
-	max-width: 1280px;
+	max-width: 1240px;
 	width: 100%;
 	padding: 40px 20px;
 	margin: auto;

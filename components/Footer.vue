@@ -6,7 +6,6 @@
 
 <style lang="scss" scoped>
 .footer {
-	background-color: $dark_gray;
 	min-height: 200px;
 
 	&__container {

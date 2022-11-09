@@ -1,11 +1,14 @@
 <template>
 	<header class="header">
 		<div class="header__container">
+			<NuxtLink class="logo" to="/">
+				<img src="assets/img/logo.svg" alt="logo">
+			</NuxtLink>
 			<nav class="header__nav nav">
 				<div class="nav__menu">
 					<ul>
-						<nuxt-link class="nav__link" to="/">Main</nuxt-link>
-						<nuxt-link class="nav__link" to="/toplist">Top List</nuxt-link>
+						<NuxtLink class="nav__link" to="/">Main</NuxtLink>
+						<NuxtLink class="nav__link" to="/movie">Movie</NuxtLink>
 					</ul>
 				</div>
 			</nav>
@@ -17,38 +20,39 @@
 
 <style lang="scss" scoped>
 .header {
-	height: 60px;
-	background-color: $dark_gray;
-	box-shadow: 0px -17px 45px 15px rgba(0, 0, 0, 0.75);
+	height: 80px;
+	background: rgba(18, 24, 41, 0.8);
 
 	&__container {
 		max-width: 1440px;
-		padding: 0 20px;
 		margin: auto;
-	}
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 
-	.nav {
-		&__menu ul {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			padding: 0;
-			gap: 20px;
-			height: 60px;
+		.logo {
+			height: 40px;
 		}
 
-		&__link {
-			color: $gray;
-			font-size: 16px;
-			padding: 12px 35px;
-			border-radius: 6px;
-			transition: 0.2s ease-out;
+		.nav {
+			&__menu ul {
+				display: flex;
+				align-items: center;
+				padding: 0;
+				gap: 48px;
+				height: 80px;
+			}
+
+			&__link {
+				color: $gray;
+				font-weight: 600;
+				transition: 0.2s ease-out;
+			}
 		}
 	}
 }
 
 .router-link-active {
 	color: $white !important;
-	background-color: $dark_gray;
 }
 </style>
