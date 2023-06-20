@@ -7,12 +7,17 @@
 				<div class="icon">
 					<img src="assets/img/search-normal.svg" alt="search-icon" />
 				</div>
-				<input class="input" type="text" placeholder="Search Movies or TV Shows" />
+				<input
+					class="input"
+					type="text"
+					placeholder="Search Movies or TV Shows"
+					v-model="inputValue"
+				/>
 			</div>
 		</div>
 		<div class="filter">
-			<div class="filter__item" :class="{ active: store.getType === 'movies' }" @click="selectType('movies')">Movies</div>
-			<div class="filter__item" :class="{ active: store.getType === 'shows' }" @click="selectType('shows')">TV Shows</div>
+			<div class="filter__item" :class="{ active: store.getType === 'movie' }" @click="selectType('movie')">Movies</div>
+			<div class="filter__item" :class="{ active: store.getType === 'tv' }" @click="selectType('tv')">TV Shows</div>
 		</div>
 		<List />
 		<NuxtLink class="all" to="/movie">See all</NuxtLink>
@@ -25,10 +30,26 @@ import { useMainStore } from "@/stores/main";
 const config = useAppConfig();
 
 const store = useMainStore();
+const router = useRouter();
 
 const selectType = (type) => {
 	store.changeType(type);
 };
+
+const inputValue = ref("");
+
+watch(inputValue, () => {
+	const timeoutId = window.setTimeout(() => {}, 0);
+	for (let id = timeoutId; id >= 0; id -= 1) {
+		window.clearTimeout(id);
+	}
+
+	setTimeout(() => {
+		if (inputValue.value.length > 3) {
+			router.push({ name: "search", query: {search: inputValue.value} });
+		}
+	}, 400);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -38,6 +59,10 @@ const selectType = (type) => {
 	&__title {
 		font-weight: 600;
 		font-size: 64px;
+
+		@media (max-width: 485px) {
+			font-size: 42px;
+		}
 	}
 
 	&__text {
@@ -49,9 +74,12 @@ const selectType = (type) => {
 		margin-top: 24px;
 
 		.input {
-			padding: 24px 99px 24px 56px;
-			max-width: 340px;
-			width: 100%;
+			padding: 24px 24px 24px 56px;
+			min-width: 240px;
+
+			@media (max-width: 365px) {
+				min-width: 180px;
+			}
 		}
 
 		.icon {

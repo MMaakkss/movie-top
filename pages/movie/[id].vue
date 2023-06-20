@@ -68,8 +68,6 @@ watch(
 		immediate: true,
 	}
 );
-
-console.log(movie.value);
 </script>
 
 <style lang="scss" scoped>

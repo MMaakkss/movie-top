@@ -1,7 +1,7 @@
 export const useFilterStore = defineStore("filter", {
 	state: () => ({
 		page: 1,
-		year: 2022,
+		year: new Date().getFullYear(),
 		genre: "all",
 	}),
 	actions: {

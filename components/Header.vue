@@ -25,6 +25,7 @@
 
 	&__container {
 		max-width: 1440px;
+		padding: 0 20px;
 		margin: auto;
 		display: flex;
 		align-items: center;

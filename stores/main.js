@@ -1,7 +1,7 @@
 export const useMainStore = defineStore("main", {
 	state: () => ({
 		page: 1,
-		type: "movies",
+		type: "movie",
 	}),
 	actions: {
 		increment() {
